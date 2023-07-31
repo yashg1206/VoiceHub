@@ -1,0 +1,17 @@
+.message {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.spinner {
+    margin-bottom: 20px;
+    /* this is for continuously moving the circle in the image  */
+    animation: spin 1s ease-in-out infinite; 
+}
+
+@keyframes spin {
+    100% {
+        /* same here */
+        transform: rotate(360deg);
+    }
+}

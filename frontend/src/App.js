@@ -5,29 +5,42 @@ import Navigation from './components/shared/Navigation/Navigation';
 import Authenticate from './pages/Authenticate/Authenticate';
 import Activate from './pages/Activate/Activate';
 import Rooms from './pages/Rooms/Rooms';
+import Room from './pages/Room/Room';
 import { useSelector } from 'react-redux';
+import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
+import Loader from './components/shared/Loader/Loader';
+
 
 function App() {
-    return (
-        <BrowserRouter>
-            <Navigation />
-            <Switch>
-                <GuestRoute path="/" exact>
-                    <Home />
-                </GuestRoute>
-                <GuestRoute path="/authenticate">
-                    <Authenticate />
-                </GuestRoute>
-                <SemiProtectedRoute path="/activate">
-                    <Activate />
-                </SemiProtectedRoute>
-                <ProtectedRoute path="/rooms">
-                    <Rooms />
-                </ProtectedRoute>
-            </Switch>
-        </BrowserRouter>
-    );
-}
+     // call refresh endpoint
+     const { loading } = useLoadingWithRefresh();  // calling this fn in hooks to set the loading status
+
+     return loading ? (
+         <Loader message="Loading, please wait.." />   //this is called when laoding is true
+     ) : (         //this is called when loading is false 
+         <BrowserRouter>   
+             <Navigation />
+             <Switch>
+                 <GuestRoute path="/" exact>
+                     <Home />
+                 </GuestRoute>
+                 <GuestRoute path="/authenticate">
+                     <Authenticate />
+                 </GuestRoute>
+                 <SemiProtectedRoute path="/activate">
+                     <Activate />
+                 </SemiProtectedRoute>
+                 <ProtectedRoute path="/rooms">
+                     <Rooms />
+                 </ProtectedRoute>
+                 <ProtectedRoute path="/room/:id">
+                     <Room />
+                 </ProtectedRoute>
+             </Switch>
+         </BrowserRouter>
+     );
+ }
+ 
 
 const GuestRoute = ({ children, ...rest }) => {
     const { isAuth } = useSelector((state) => state.auth);
