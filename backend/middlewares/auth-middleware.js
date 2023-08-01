@@ -14,6 +14,6 @@ module.exports = async function (req, res, next) {
         req.user = userData;   // here we are adding the userID to access the userId in activatecontroller.js
         next();
     } catch (err) {
-        res.status(401).json({ message: 'Invalid token' });
+        res.status(401).json({ message: 'Invalid token' }); // this will be catched by the axios interceptor in client side
     }
 };

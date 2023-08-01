@@ -80,6 +80,71 @@ class AuthController {
         const userDto = new UserDto(user);
         res.json({ user: userDto, auth: true });
     }
+    async refresh(req, res) {
+        // get refresh token from cookie
+        const { refreshToken: refreshTokenFromCookie } = req.cookies; //doing alias becoz we will be generating new referesh token later so as to avoid the conflict
+        // check if token is valid
+        let userData;
+        try {
+            userData = await tokenService.verifyRefreshToken(
+                refreshTokenFromCookie
+            );
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid Token' });
+        }
+        // Check if token is in db
+        try {
+            const token = await tokenService.findRefreshToken(
+                userData._id,
+                refreshTokenFromCookie
+            );
+            if (!token) {
+                return res.status(401).json({ message: 'Invalid token' });
+            }
+        } catch (err) {
+            return res.status(500).json({ message: 'Internal error' });
+        }
+        // check if valid user
+        const user = await userService.findUser({ _id: userData._id });
+        if (!user) {
+            return res.status(404).json({ message: 'No user' });
+        }
+        // Generate new tokens
+        const { refreshToken, accessToken } = tokenService.generateTokens({
+            _id: userData._id,
+        });
+
+        // Update refresh token in the db
+        try {
+            await tokenService.updateRefreshToken(userData._id, refreshToken);
+        } catch (err) {
+            return res.status(500).json({ message: 'Internal error' });
+        }
+        // put in newly created refresh tokens in the  cookie
+        res.cookie('refreshToken', refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true,
+        });
+        
+        // put in newly created access tokens in the  cookie
+        res.cookie('accessToken', accessToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true,
+        });
+        // sending the response to the client 
+        const userDto = new UserDto(user);
+        res.json({ user: userDto, auth: true });
+    }
+
+    async logout(req, res) {    //function for logging out
+        const { refreshToken } = req.cookies;
+        // delete refresh token from db
+        await tokenService.removeToken(refreshToken);  
+        // delete cookies
+        res.clearCookie('refreshToken');  //deleting the refresh token from cookies
+        res.clearCookie('accessToken');    //deleting the access token from cookies
+        res.json({ user: null, auth: false });   //making user as null and  auth as false
+    }
 }
 
 module.exports = new AuthController();
