@@ -5424,6 +5424,13 @@
   dependencies:
     "map-cache" "^0.2.2"
 
+"freeice@^2.2.2":
+  "integrity" "sha512-XNoIxDHufqPIBSLpp4IrFPnoc+hv/0RwdOGhIoggIDC2ZKf5r6OoixbeoFJSmZOAq2aYiEUArhuQ8zVVrM5C4w=="
+  "resolved" "https://registry.npmjs.org/freeice/-/freeice-2.2.2.tgz"
+  "version" "2.2.2"
+  dependencies:
+    "normalice" "^1.0.0"
+
 "fresh@0.5.2":
   "integrity" "sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac= sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q=="
   "resolved" "https://registry.npmjs.org/fresh/-/fresh-0.5.2.tgz"
@@ -7930,6 +7937,11 @@
   "integrity" "sha512-QzsYKWhXTWx8h1kIvqfnC++o0pEmpRQA/aenALsL2F4pqNVr7YzcdMlDij5WBnwftRbJCNJL/O7zdKaxKPHqgQ=="
   "resolved" "https://registry.npmjs.org/node-releases/-/node-releases-2.0.12.tgz"
   "version" "2.0.12"
+
+"normalice@^1.0.0":
+  "integrity" "sha512-wF2/tv9q/K8S+RqCgll5yC6z/zcXNr+rEHfGIw8A6D58vjfJo+kp749MI6cAHv72LE7nwv92Qi6tZhIeMOOJpg=="
+  "resolved" "https://registry.npmjs.org/normalice/-/normalice-1.0.1.tgz"
+  "version" "1.0.1"
 
 "normalize-package-data@^2.3.2", "normalize-package-data@^2.5.0":
   "integrity" "sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA=="
